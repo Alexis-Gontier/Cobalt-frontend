@@ -1,18 +1,14 @@
 import axiosConfig from "./axiosConfig";
 
-export const product = async (
-  id: string,
-  titre: string,
-  description: string,
-  prix: number,
-  quantite: number,
-  image_url: string
-) => {
-  const response = await axiosConfig.get("/", {
-    params: { id, titre, description, prix, quantite, image_url },
-  });
-  return response.data;
-}
+export const fetchProducts = async () => {
+  try {
+      const response = await axiosConfig.get("/products");
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching products:", error);
+      return [];
+  }
+};
 
 export const exportProduct = async (
   id: string,
