@@ -14,3 +14,13 @@ export const register = async (user: {
   const response = await axiosConfig.post("/auth/register", user)
   return response.data
 }
+
+export const account = async () => {
+  try {
+    const response = await axiosConfig.get("/auth/account")
+    return response.data
+  } catch (error) {
+    console.error("Error fetching profile:", error)
+    return []
+  }
+}

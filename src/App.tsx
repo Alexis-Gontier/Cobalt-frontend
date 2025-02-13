@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { RegisterForm } from "@/components/auth/registerForm/registerForm";
 import { LoginForm } from "@/components/auth/loginForm/loginForm";
 import { AuthLayout } from "@/layouts/authLayout";
+import { ViewForm } from "@/components/auth/viewForm/viewForm";
 import MainLayout from "@/layouts/MainLayout";
 import ProductScroll from "@/components/products/ProductsScroll";
 
@@ -11,6 +12,7 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<ProductScroll />} />
+          <Route path="account" element={<ViewForm/>} />
         </Route>
         <Route path="/products" element={<ProductScroll />} />
         <Route path="/auth" element={<AuthLayout />}>
