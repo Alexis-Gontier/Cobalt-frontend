@@ -24,7 +24,7 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,14 +35,14 @@ export const LoginForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const data = await login(values.email, values.password)
-      console.log("Réponse du serveur:", data)
-      localStorage.setItem("token", data.access_token)
-      navigate("/")
+      const data = await login(values.email, values.password);
+      console.log("Réponse du serveur:", data);
+      localStorage.setItem("token", data.access_token);
+      navigate("/");
     } catch (error) {
-      console.error("Erreur lors de la connexion:", error)
+      console.error("Erreur lors de la connexion:", error);
     }
-  }
+  };
 
   return (
     <Form {...form}>
