@@ -6,6 +6,7 @@ import { ViewForm } from "@/components/auth/viewForm/viewForm";
 import MainLayout from "@/layouts/MainLayout";
 import ProductScroll from "@/components/products/ProductsScroll";
 import ProductById from "@/components/products/ProductById";
+import ProductByCategory from "@/components/products/ProductByCategory";
 
 export default function App() {
   return (
@@ -14,6 +15,7 @@ export default function App() {
         <Route element={<MainLayout />}>
           <Route index element={<ProductScroll />} />
           <Route path="account" element={<ViewForm/>} />
+          <Route path="/:category" element={<ProductByCategory />} />
           <Route path="/product/" element={<Navigate to={"/"} />} />
           <Route path="/product/:id" element={<ProductById />} />
         </Route>

@@ -11,6 +11,8 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import { title } from "process";
+import { url } from "inspector";
 
 const data = {
   user: {
@@ -27,15 +29,15 @@ const data = {
       items: [
         {
           title: "Necklace",
-          url: "#",
+          url: "/Necklaces",
         },
         {
           title: "Pendant",
-          url: "#",
+          url: "/Pendants",
         },
         {
           title: "Earrings",
-          url: "#",
+          url: "/Earrings",
         },
       ],
     },
@@ -46,15 +48,15 @@ const data = {
       items: [
         {
           title: "Bracelet",
-          url: "#",
+          url: "/Bracelets",
         },
         {
           title: "Ring",
-          url: "#",
+          url: "/Rings",
         },
         {
           title: "Watch",
-          url: "#",
+          url: "/Watches",
         },
       ],
     },
