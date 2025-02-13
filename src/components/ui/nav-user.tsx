@@ -1,6 +1,9 @@
 import { BadgeCheck, ChevronsUpDown, CreditCard, LogOut } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+import { useNavigate } from "react-router-dom";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +30,8 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
+  const navigate = useNavigate();
 
   return (
     <SidebarMenu>
@@ -69,7 +74,7 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/account")}>
                 <BadgeCheck />
                 Account
               </DropdownMenuItem>
