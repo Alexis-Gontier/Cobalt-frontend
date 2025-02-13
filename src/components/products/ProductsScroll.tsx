@@ -39,6 +39,7 @@ export default function ProductsScroll() {
             <ProductCard
               key={product.id}
               product={{
+                id: product.id,
                 title: product.titre,
                 description: product.description,
                 price: product.prix,
