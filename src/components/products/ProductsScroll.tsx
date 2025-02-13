@@ -1,4 +1,4 @@
-import { fetchProducts } from "@/api/product";
+import { fetchProducts } from "@/api/products";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ui/ProductCard";
 
@@ -39,6 +39,7 @@ export default function ProductsScroll() {
             <ProductCard
               key={product.id}
               product={{
+                id: product.id,
                 title: product.titre,
                 description: product.description,
                 price: product.prix,

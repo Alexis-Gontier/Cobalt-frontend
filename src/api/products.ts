@@ -8,7 +8,17 @@ export const fetchProducts = async () => {
       console.error("Error fetching products:", error);
       return [];
   }
-};
+}
+
+export const fetchProductById = async (id: string) => {
+  try {
+      const response = await axiosConfig.get(`/products/${id}`);
+      return response.data;
+  } catch (error) {
+      console.error("Error fetching product:", error);
+      return [];
+  }
+}
 
 export const exportProduct = async (
   id: string,

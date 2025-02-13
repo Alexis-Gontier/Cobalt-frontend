@@ -26,6 +26,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AiChatBox } from "@/components/ai/aiChatBox";
 import { ShoppingBag } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import NeoBreadcrumb from "@/components/NeoBreadcrumb";
+
 export default function MainLayout() {
   return (
     <SidebarProvider>
@@ -36,19 +38,7 @@ export default function MainLayout() {
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <div className="flex items-center justify-between w-full">
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
+              <NeoBreadcrumb />
               <Sheet>
                 <SheetTrigger className="flex items-center gap-2 bg-black text-white h-full px-3 py-2 rounded-md cursor-pointer hover:bg-black/90 transition-colors">
                   <ShoppingBag className="w-4 h-4" />

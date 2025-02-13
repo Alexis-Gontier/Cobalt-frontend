@@ -1,8 +1,9 @@
-import {Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent} from "@/components/ui/card";
+import {Card, CardFooter, CardTitle, CardDescription } from "@/components/ui/card";
 import {AspectRatio} from "@/components/ui/aspect-ratio";
 import { Link } from "react-router-dom";
 
 type Product = {
+  id: string;
   title: string;
   description: string;
   price: number;
@@ -16,8 +17,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link to={`/products/${product.title}`} className="group">
-      <Card className="overflow-hidden">
+    <Link to={`/product/${product.id}`} className="group">
+      <Card className="overflow-hidden h-full">
         <div className="w-[100%] overflow-hidden">
           <AspectRatio ratio={16 / 12}>
             <img src={product.imageUrl} alt={product.title} className="object-cover transition-transform duration-300 group-hover:scale-105"/>
