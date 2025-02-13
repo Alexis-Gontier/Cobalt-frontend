@@ -12,26 +12,19 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { login } from "@/api/auth";
+import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
   email: z
     .string()
-    .email({
-      message: "Email is required",
-    })
-    .min(1, {
-      message: "Email is required",
-    }),
-  password: z.string().min(1, {
-    message: "Password is required",
-  }),
+    .email({ message: "Email is required" })
+    .min(1, { message: "Email is required" }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
-const onSubmit = (values: z.infer<typeof formSchema>) => {
-  console.log(values);
-};
-
 export const LoginForm = () => {
+  const navigate = useNavigate()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -39,15 +32,27 @@ export const LoginForm = () => {
       password: "",
     },
   });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const data = await login(values.email, values.password)
+      console.log("Réponse du serveur:", data)
+      localStorage.setItem("token", data.access_token)
+      navigate("/")
+    } catch (error) {
+      console.error("Erreur lors de la connexion:", error)
+    }
+  }
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col  gap-6 w-[380px]"
+        className="flex flex-col gap-6 w-[380px]"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Login.</h1>
-          <p className=" text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Enter your information below to login
           </p>
         </div>
@@ -79,7 +84,6 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="password"

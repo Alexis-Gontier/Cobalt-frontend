@@ -12,30 +12,24 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { register as registerUser } from "@/api/auth";
 
-const formSchema = z.object({
-  firstName: z.string().min(1, {
-    message: "First name is required",
-  }),
-  lastName: z.string().min(1, {
-    message: "Last name is required",
-  }),
-  email: z.string().email({
-    message: "Use a valid email address",
-  }),
-  password: z.string().min(8, {
-    message: "At least 8 characters needed",
-  }),
-  confirmPassword: z.string().min(8, {
-    message: "Should match the password",
-  }),
-});
-
-const onSubmit = (values: z.infer<typeof formSchema>) => {
-  console.log(values);
-};
+const formSchema = z
+  .object({
+    firstName: z.string().min(1, { message: "First name is required" }),
+    lastName: z.string().min(1, { message: "Last name is required" }),
+    email: z.string().email({ message: "Use a valid email address" }),
+    password: z.string().min(8, { message: "At least 8 characters needed" }),
+    confirmPassword: z.string().min(8, { message: "Should match the password" }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 export const RegisterForm = () => {
+  const navigate = useNavigate();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,15 +40,33 @@ export const RegisterForm = () => {
       confirmPassword: "",
     },
   });
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const registerData = {
+        firstname: values.firstName,
+        name: values.lastName,
+        email: values.email,
+        password: values.password,
+      };
+      const data = await registerUser(registerData)
+      console.log("Réponse du serveur:", data)
+      localStorage.setItem("token", data.access_token)
+      navigate("/")
+    } catch (error) {
+      console.error("Erreur lors de l'inscription:", error)
+    }
+  }
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col  gap-6 w-[380px]"
+        className="flex flex-col gap-6 w-[380px]"
       >
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">Create an account.</h1>
-          <p className=" text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             Enter your information below to create an account
           </p>
         </div>
@@ -94,7 +106,7 @@ export const RegisterForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-end justify-between">
-                    <FormLabel className="font-semibold" htmlFor="firstName">
+                    <FormLabel htmlFor="firstName" className="font-semibold">
                       First Name
                     </FormLabel>
                     <FormMessage />
@@ -120,7 +132,9 @@ export const RegisterForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-end justify-between">
-                    <FormLabel className="font-semibold">Last Name</FormLabel>
+                    <FormLabel className="font-semibold">
+                      Last Name
+                    </FormLabel>
                     <FormMessage />
                   </div>
                   <FormControl>
@@ -139,7 +153,7 @@ export const RegisterForm = () => {
               )}
             />
           </div>
-          <div className="grid gap-2 ">
+          <div className="grid gap-2">
             <FormField
               control={form.control}
               name="password"
@@ -166,17 +180,13 @@ export const RegisterForm = () => {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <div className="flex items-end justify-between">
-                    <FormLabel
-                      htmlFor="confirmPassword"
-                      className="font-semibold"
-                    >
+                    <FormLabel htmlFor="confirmPassword" className="font-semibold">
                       Confirm Password
                     </FormLabel>
                     <FormMessage />
