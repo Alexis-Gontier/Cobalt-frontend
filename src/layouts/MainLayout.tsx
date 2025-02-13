@@ -21,10 +21,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ShoppingBag } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useState } from "react";
+import { ShoppingBag, Sparkles } from "lucide-react";
 import { Outlet } from "react-router-dom";
 
 export default function MainLayout() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -59,7 +73,7 @@ export default function MainLayout() {
                     <Separator />
                   </SheetHeader>
                   <div className="flex flex-col justify-between h-full pb-4">
-                    <div className="flex flex-col gap-2 px-2">
+                    <ScrollArea className="flex flex-col gap-2 px-2">
                       <div className="flex items-center gap-2">
                         <img
                           src="https://via.placeholder.com/150"
@@ -72,7 +86,7 @@ export default function MainLayout() {
                           <p className="text-sm text-gray-500">$100.00</p>
                         </div>
                       </div>
-                    </div>
+                    </ScrollArea>
                     <button className="text-sm bg-black text-white px-4 py-2 rounded-md w-fit drop-shadow-md cursor-pointer hover:bg-black/90 transition-colors fixed bottom-4 right-4">
                       Go to checkout
                     </button>
@@ -85,6 +99,48 @@ export default function MainLayout() {
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <Outlet />
         </div>
+        <Popover open={isOpen} onOpenChange={setIsOpen}>
+          {!isOpen ? (
+            <PopoverTrigger
+              className="
+                fixed bottom-8 right-5 z-10
+              bg-black/50 backdrop-blur-xs text-white
+              flex items-center justify-center
+              px-4 py-4
+              rounded-full cursor-pointer
+              hover:bg-black/70 hover:scale-105
+              transition-all duration-200 active:scale-95 active:bg-black/80 group"
+              onClick={() => {
+                console.log("clicked");
+              }}
+            >
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="">
+                    <Sparkles className="w-5 h-5 group-hover:w-6 group-hover:h-6 transition-all duration-200" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Ask AI</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </PopoverTrigger>
+          ) : (
+            <PopoverTrigger
+              className="fixed bottom-8 right-4 z-10 bg-black backdrop-blur-xs text-white border border-black/10 px-4 py-2 rounded-md cursor-pointer hover:bg-black/90 hover:scale-105 transition-all duration-200 active:scale-95"
+              onClick={() => {
+                console.log("clicked");
+              }}
+            >
+              Send Message
+            </PopoverTrigger>
+          )}
+          <PopoverContent className="mr-4">
+            <div className="flex flex-col gap-2">
+              <h1>Ask AI</h1>
+            </div>
+          </PopoverContent>
+        </Popover>
       </SidebarInset>
     </SidebarProvider>
   );
