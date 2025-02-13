@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const axiosClient = axios.create({
+const axiosConfig = axios.create({
   baseURL: "http://localhost:5000",
   timeout: 10000,
   headers: {
@@ -8,4 +8,4 @@ const axiosClient = axios.create({
   },
 })
 
-export default axiosClient;
+export default axiosConfig
