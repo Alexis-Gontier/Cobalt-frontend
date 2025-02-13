@@ -13,9 +13,8 @@ import {
 } from "lucide-react";
 
 import { NavMain } from "@/components/ui/nav-main";
-import { NavProjects } from "@/components/ui/nav-project";
 import { NavUser } from "@/components/ui/nav-user";
-import { TeamSwitcher } from "@/components/ui/team-switch";
+import { Logo } from "@/components/ui/Logo";
 import {
   Sidebar,
   SidebarContent,
@@ -158,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <h1>Cobalt</h1>
+        <Logo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
