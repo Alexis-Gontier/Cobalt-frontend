@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -15,11 +19,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
-import { account } from "@/api/auth";
+import { account, updateAccount, updatePassword } from "@/api/account";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -39,10 +39,12 @@ export const ViewForm = () => {
     },
   });
 
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [NpasswordVisible, setNPasswordVisible] = useState(false);
+
   useEffect(() => {
     async function loadAccountData() {
       const accountData = await account();
-      // Vérifiez que les données sont au format attendu
       if (accountData) {
         form.reset({
           firstName: accountData.firstName,
@@ -54,6 +56,39 @@ export const ViewForm = () => {
     }
     loadAccountData();
   }, [form]);
+
+  const hModifyAccount = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const result = await updateAccount({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+      });
+      console.log("Compte mis à jour :", result);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du compte :", error);
+    }
+  };
+
+  const hModifyPassword = async (data: z.infer<typeof formSchema>) => {
+    try {
+      const result = await updatePassword({
+        current: data.password,
+        new: "nouveauMotDePasse", // Remplacez par la nouvelle valeur du mot de passe
+      });
+      console.log("Mot de passe mis à jour :", result);
+    } catch (error) {
+      console.error("Erreur lors de la mise à jour du mot de passe :", error);
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+
+  const toggleNPasswordVisibility = () => {
+    setNPasswordVisible(!NpasswordVisible);
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -85,7 +120,9 @@ export const ViewForm = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button type="submit">Save changes</Button>
+              <Button onClick={form.handleSubmit(hModifyAccount)}>
+                Save changes
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -99,16 +136,43 @@ export const ViewForm = () => {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
-                <Label htmlFor="current">Current password</Label>
-                <Input id="current" type="password" {...form.register("password")} />
+                <Label htmlFor="current">New password</Label>
+                <div className="flex items-center">
+                  <Input
+                    id="current"
+                    type={passwordVisible ? "text" : "password"}
+                    {...form.register("password")}
+                  />
+                  <Button
+                    type="button"
+                    onClick={togglePasswordVisibility}
+                    className="ml-2"
+                  >
+                    {passwordVisible ? "Hide" : "Show"}
+                  </Button>
+                </div>
               </div>
               <div className="space-y-1">
-                <Label htmlFor="new">New password</Label>
-                <Input id="new" type="password" />
+                <Label htmlFor="new">Confirm new password</Label>
+                <div className="flex items-center">  
+                  <Input
+                      id="current"
+                      type={NpasswordVisible ? "text" : "password"}
+                    />
+                    <Button
+                      type="button"
+                      onClick={toggleNPasswordVisibility}
+                      className="ml-2"
+                    >
+                      {NpasswordVisible ? "Hide" : "Show"}
+                    </Button>
+                  </div>
               </div>
             </CardContent>
             <CardFooter>
-              <Button type="submit">Save password</Button>
+              <Button onClick={form.handleSubmit(hModifyPassword)}>
+                Save password
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
