@@ -1,4 +1,4 @@
-import { fetchProducts } from "@/api/product";
+import { fetchProducts } from "@/api/products";
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ui/ProductCard";
 

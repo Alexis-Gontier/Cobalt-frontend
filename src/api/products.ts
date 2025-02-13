@@ -10,7 +10,7 @@ export const fetchProducts = async () => {
   }
 }
 
-export const fetchProductsById = async (id: string) => {
+export const fetchProductById = async (id: string) => {
   try {
       const response = await axiosConfig.get(`/products/${id}`);
       return response.data;
