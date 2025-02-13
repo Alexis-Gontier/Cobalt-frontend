@@ -11,6 +11,7 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<ProductScroll />} />
+          <Route path="/:a/:v" element={<ProductScroll />} />
         </Route>
         <Route path="/products" element={<ProductScroll />} />
         <Route path="/auth" element={<AuthLayout />}>
