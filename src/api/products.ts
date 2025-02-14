@@ -2,23 +2,23 @@ import axiosConfig from "./axiosConfig";
 
 export const fetchProducts = async () => {
   try {
-      const response = await axiosConfig.get("/products");
-      return response.data;
+    const response = await axiosConfig.get("/products");
+    return response.data;
   } catch (error) {
-      console.error("Error fetching products:", error);
-      return [];
+    console.error("Error fetching products:", error);
+    return [];
   }
-}
+};
 
 export const fetchProductById = async (id: string) => {
   try {
-      const response = await axiosConfig.get(`/products/${id}`);
-      return response.data;
+    const response = await axiosConfig.get(`/products/${id}`);
+    return response.data;
   } catch (error) {
-      console.error("Error fetching product:", error);
-      return [];
+    console.error("Error fetching product:", error);
+    return [];
   }
-}
+};
 
 export const exportProduct = async (
   id: string,
@@ -30,6 +30,28 @@ export const exportProduct = async (
 ) => {
   const response = await axiosConfig.post("/", {
     params: { id, titre, description, prix, quantite, image_url },
-  })
+  });
   return response.data;
-}
+};
+
+export const addToCart = async (id: string, userId: string) => {
+  try {
+    const response = await axiosConfig.post(`/shopcart/${userId}`, {
+      params: { id, quantite: 1 },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    return [];
+  }
+};
+
+export const getCart = async (userId: string) => {
+  try {
+    const response = await axiosConfig.get(`/shopcart/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting cart:", error);
+    return [];
+  }
+};

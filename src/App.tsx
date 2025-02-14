@@ -13,7 +13,7 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route index element={<ProductScroll />} />
-          <Route path="account" element={<ViewForm/>} />
+          <Route path="account" element={<ViewForm />} />
           <Route path="/product/" element={<Navigate to={"/"} />} />
           <Route path="/product/:id" element={<ProductById />} />
         </Route>
