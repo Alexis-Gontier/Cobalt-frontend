@@ -19,7 +19,15 @@ export const fetchProductById = async (id: string) => {
     return [];
   }
 };
-
+export const fetchProductByCategory = async (category: string) => {
+  try {
+    const response = await axiosConfig.get(`/products/products/${category}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    return [];
+  }
+};
 export const addToCart = async (id: string, userId: string) => {
   try {
     console.log(userId);

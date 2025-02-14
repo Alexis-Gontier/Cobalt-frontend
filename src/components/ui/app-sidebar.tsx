@@ -27,15 +27,15 @@ const data = {
       items: [
         {
           title: "Necklace",
-          url: "#",
+          url: "/Necklaces",
         },
         {
           title: "Pendant",
-          url: "#",
+          url: "/Pendants",
         },
         {
           title: "Earrings",
-          url: "#",
+          url: "/Earrings",
         },
       ],
     },
@@ -46,15 +46,15 @@ const data = {
       items: [
         {
           title: "Bracelet",
-          url: "#",
+          url: "/Bracelets",
         },
         {
           title: "Ring",
-          url: "#",
+          url: "/Rings",
         },
         {
           title: "Watch",
-          url: "#",
+          url: "/Watches",
         },
       ],
     },
@@ -62,6 +62,11 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const token = localStorage.getItem("token");
+
+  console.log(token);
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="bg-white">
@@ -70,9 +75,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="bg-white">
         <NavMain items={data.navMain} />
       </SidebarContent>
-      <SidebarFooter className="bg-white">
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      {token && (
+        <SidebarFooter className="bg-white">
+          <NavUser user={data.user} />
+        </SidebarFooter>
+      )}
       <SidebarRail />
     </Sidebar>
   );
