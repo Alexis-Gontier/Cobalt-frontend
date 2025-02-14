@@ -11,8 +11,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { title } from "process";
-import { url } from "inspector";
 
 const data = {
   user: {
