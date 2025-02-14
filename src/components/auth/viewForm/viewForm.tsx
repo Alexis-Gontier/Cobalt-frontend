@@ -13,13 +13,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
-import { account, updateAccount, updatePassword } from "@/api/account";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { updateAccount, updatePassword } from "@/api/account";
+import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
@@ -39,23 +35,20 @@ export const ViewForm = () => {
     },
   });
 
+  const userFirstName = localStorage.getItem("firstname") as string;
+  const userLastName = localStorage.getItem("lastname");
+  const userEmail = localStorage.getItem("email");
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [NpasswordVisible, setNPasswordVisible] = useState(false);
 
   useEffect(() => {
-    async function loadAccountData() {
-      const accountData = await account();
-      if (accountData) {
-        form.reset({
-          firstName: accountData.firstName,
-          lastName: accountData.lastName,
-          email: accountData.email,
-          password: accountData.password,
-        });
-      }
-    }
-    loadAccountData();
-  }, [form]);
+    form.reset({
+      firstName: userFirstName,
+      lastName: userLastName ?? "",
+      email: userEmail ?? "",
+    });
+  }, [form, userFirstName, userLastName, userEmail]);
 
   const hModifyAccount = async (data: z.infer<typeof formSchema>) => {
     try {
@@ -91,7 +84,7 @@ export const ViewForm = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="flex justify-center mt-30 min-h-screen">
       <Tabs defaultValue="account" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -137,36 +130,38 @@ export const ViewForm = () => {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="current">New password</Label>
-                <div className="flex items-center">
+                <div className="flex items-center h-fit ">
                   <Input
                     id="current"
                     type={passwordVisible ? "text" : "password"}
                     {...form.register("password")}
+                    className="h-12 m-0 rounded-r-none"
                   />
                   <Button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="ml-2"
+                    className="h-12 w-12 rounded-l-none"
                   >
-                    {passwordVisible ? "Hide" : "Show"}
+                    {passwordVisible ? <Eye /> : <EyeOff />}
                   </Button>
                 </div>
               </div>
               <div className="space-y-1">
                 <Label htmlFor="new">Confirm new password</Label>
-                <div className="flex items-center">  
+                <div className="flex items-center ">
                   <Input
-                      id="current"
-                      type={NpasswordVisible ? "text" : "password"}
-                    />
-                    <Button
-                      type="button"
-                      onClick={toggleNPasswordVisibility}
-                      className="ml-2"
-                    >
-                      {NpasswordVisible ? "Hide" : "Show"}
-                    </Button>
-                  </div>
+                    id="current"
+                    type={NpasswordVisible ? "text" : "password"}
+                    className="h-12 m-0 rounded-r-none"
+                  />
+                  <Button
+                    type="button"
+                    onClick={toggleNPasswordVisibility}
+                    className="h-12 w-12 rounded-l-none"
+                  >
+                    {NpasswordVisible ? <Eye /> : <EyeOff />}
+                  </Button>
+                </div>
               </div>
             </CardContent>
             <CardFooter>

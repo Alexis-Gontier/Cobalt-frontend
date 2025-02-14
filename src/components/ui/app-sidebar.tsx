@@ -11,11 +11,16 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 const data = {
   user: {
-    name: "Bruce Wayne",
-    email: "save@gotham.com",
+    name:
+      (localStorage.getItem("firstname") as string) +
+      " " +
+      (localStorage.getItem("lastname") as string),
+    email: localStorage.getItem("email") as string,
     avatar: "/public/batman_avatar.jpg",
   },
   navMain: [
@@ -62,11 +67,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
   const token = localStorage.getItem("token");
-
-  console.log(token);
-
+  const navigate = useNavigate();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="bg-white">
@@ -75,9 +77,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent className="bg-white">
         <NavMain items={data.navMain} />
       </SidebarContent>
-      {token && (
+      {token ? (
         <SidebarFooter className="bg-white">
           <NavUser user={data.user} />
+        </SidebarFooter>
+      ) : (
+        <SidebarFooter className="bg-white">
+          <div className="flex justify-center gap-1 w-full mb-2">
+            <Button
+              className="text-md bg-transparent text-black hover:bg-transparent shadow-none cursor-pointer hover:underline"
+              onClick={() => navigate("/auth/login")}
+            >
+              Login
+            </Button>
+            <Separator orientation="vertical" />
+            <Button
+              className="text-md bg-transparent text-black hover:bg-transparent shadow-none cursor-pointer hover:underline"
+              onClick={() => navigate("/auth/register")}
+            >
+              Register
+            </Button>
+          </div>
         </SidebarFooter>
       )}
       <SidebarRail />

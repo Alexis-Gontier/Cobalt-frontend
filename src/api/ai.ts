@@ -1,7 +1,8 @@
 import axiosConfig from "./axiosConfig";
 
 export interface AiResponse {
-  answer: string;
+  resultat: string;
+  title: string;
 }
 
 export const getAiResponse = async (message: string): Promise<AiResponse> => {
@@ -10,7 +11,7 @@ export const getAiResponse = async (message: string): Promise<AiResponse> => {
       demande: message,
     });
     console.log(response.data);
-    return { answer: response.data.resultat };
+    return { resultat: response.data.resultat, title: response.data.title };
   } catch (error) {
     console.error("Error getting AI response:", error);
     throw new Error("Failed to get AI response");

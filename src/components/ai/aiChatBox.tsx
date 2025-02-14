@@ -16,12 +16,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { getAiResponse } from "@/api/ai";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 export const AiChatBox = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [responses, setResponses] = useState<
-    { answer: string; time: string }[]
+    { resultat: string; title: string; time: string }[]
   >([]);
 
   const handleSendMessage = async () => {
@@ -32,7 +31,7 @@ export const AiChatBox = () => {
     });
     setResponses([
       ...responses,
-      { answer: response.answer, time: currentTime },
+      { resultat: response.resultat, title: response.title, time: currentTime },
     ]);
   };
 
@@ -78,7 +77,13 @@ export const AiChatBox = () => {
                   <span className="text-xs text-white/50">
                     {response.time} -{" "}
                   </span>
-                  {response.answer}
+                  Here's witch of our jewels would best suit your request:{" "}
+                  <a
+                    href={`/product/${response.title}`}
+                    className="text-blue-200 underline font-medium hover:text-blue-300 transition-all duration-200"
+                  >
+                    {response.title}
+                  </a>
                 </p>
               ))}
             </ScrollArea>
