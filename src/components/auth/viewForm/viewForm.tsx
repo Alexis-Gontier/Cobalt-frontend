@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { account, updateAccount, updatePassword } from "@/api/account";
+import { updateAccount, updatePassword } from "@/api/account";
 import { Eye, EyeOff } from "lucide-react";
 
 const formSchema = z.object({
@@ -35,8 +35,8 @@ export const ViewForm = () => {
     },
   });
 
-  const userFirstName = localStorage.getItem("firstName");
-  const userLastName = localStorage.getItem("lastName");
+  const userFirstName = localStorage.getItem("firstname") as string;
+  const userLastName = localStorage.getItem("lastname");
   const userEmail = localStorage.getItem("email");
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -44,7 +44,7 @@ export const ViewForm = () => {
 
   useEffect(() => {
     form.reset({
-      firstName: userFirstName ?? "",
+      firstName: userFirstName,
       lastName: userLastName ?? "",
       email: userEmail ?? "",
     });

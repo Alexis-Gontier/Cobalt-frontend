@@ -28,7 +28,7 @@ import { Outlet } from "react-router-dom";
 import NeoBreadcrumb from "@/components/NeoBreadcrumb";
 import { getCart } from "@/api/products";
 import { fetchProductById } from "@/api/products";
-
+import { Toaster } from "@/components/ui/toaster";
 // Define the type for a product in the cart
 interface CartProduct {
   product_id: string;
@@ -120,6 +120,7 @@ export default function MainLayout() {
           </div>
           <AiChatBox />
         </SidebarInset>
+        <Toaster />
       </SidebarProvider>
     </CartContext.Provider>
   );

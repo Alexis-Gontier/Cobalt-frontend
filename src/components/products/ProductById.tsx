@@ -4,7 +4,7 @@ import { fetchProductById, addToCart } from "@/api/products";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/layouts/MainLayout";
-
+import { useToast } from "@/hooks/use-toast";
 export default function ProductById() {
   const userId: string | null = localStorage.getItem("userId");
   const refreshCart = useCart();
@@ -22,11 +22,15 @@ export default function ProductById() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const { toast } = useToast();
   const handleAddToCart = async () => {
     if (product) {
       await addToCart(product.id, userId || "");
       refreshCart();
+      toast({
+        title: "Product added to cart",
+        description: "The product has been added to the cart successfully.",
+      });
     }
   };
 
