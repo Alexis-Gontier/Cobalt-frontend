@@ -3,8 +3,12 @@ import { useParams } from "react-router-dom";
 import { fetchProductById, addToCart } from "@/api/products";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useCart } from "@/layouts/MainLayout";
 
 export default function ProductById() {
+  const userId: string | null = localStorage.getItem("userId");
+  const refreshCart = useCart();
+
   interface Product {
     id: string;
     titre: string;
@@ -18,6 +22,13 @@ export default function ProductById() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleAddToCart = async () => {
+    if (product) {
+      await addToCart(product.id, userId || "");
+      refreshCart();
+    }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -51,8 +62,8 @@ export default function ProductById() {
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold">{product.titre}</h1>
           <Button
-            className="flex justify-between"
-            onClick={() => addToCart(product.id, "toto")}
+            className="flex justify-between cursor-pointer"
+            onClick={handleAddToCart}
           >
             <span>Add to cart</span>
             <span>{product.prix}$</span>

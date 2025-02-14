@@ -35,23 +35,20 @@ export const ViewForm = () => {
     },
   });
 
+  const userFirstName = localStorage.getItem("firstName");
+  const userLastName = localStorage.getItem("lastName");
+  const userEmail = localStorage.getItem("email");
+
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [NpasswordVisible, setNPasswordVisible] = useState(false);
 
   useEffect(() => {
-    async function loadAccountData() {
-      const accountData = await account();
-      if (accountData) {
-        form.reset({
-          firstName: accountData.firstName,
-          lastName: accountData.lastName,
-          email: accountData.email,
-          password: accountData.password,
-        });
-      }
-    }
-    loadAccountData();
-  }, [form]);
+    form.reset({
+      firstName: userFirstName ?? "",
+      lastName: userLastName ?? "",
+      email: userEmail ?? "",
+    });
+  }, [form, userFirstName, userLastName, userEmail]);
 
   const hModifyAccount = async (data: z.infer<typeof formSchema>) => {
     try {

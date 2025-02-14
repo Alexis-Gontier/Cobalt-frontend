@@ -36,8 +36,14 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const data = await login(values.email, values.password);
-      console.log("Réponse du serveur:", data);
+
       localStorage.setItem("token", data.access_token);
+      localStorage.setItem("userId", data.user._id);
+      localStorage.setItem("email", data.user.email);
+      localStorage.setItem("firstname", data.user.firstname);
+      localStorage.setItem("lastname", data.user.name);
+      localStorage.setItem("password", data.user.password);
+
       navigate("/");
     } catch (error) {
       console.error("Erreur lors de la connexion:", error);

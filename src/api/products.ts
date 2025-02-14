@@ -20,24 +20,16 @@ export const fetchProductById = async (id: string) => {
   }
 };
 
-export const exportProduct = async (
-  id: string,
-  titre: string,
-  description: string,
-  prix: number,
-  quantite: number,
-  image_url: string
-) => {
-  const response = await axiosConfig.post("/", {
-    params: { id, titre, description, prix, quantite, image_url },
-  });
-  return response.data;
-};
-
 export const addToCart = async (id: string, userId: string) => {
   try {
+    console.log(userId);
+    const token = localStorage.getItem("token");
     const response = await axiosConfig.post(`/shopcart/${userId}`, {
-      params: { id, quantite: 1 },
+      product_id: id,
+      quantity: 1,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return response.data;
   } catch (error) {
