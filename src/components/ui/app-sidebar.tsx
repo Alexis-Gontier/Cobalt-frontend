@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-
+import { Separator } from "@/components/ui/separator";
 const data = {
   user: {
     name:
@@ -83,9 +83,20 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarFooter>
       ) : (
         <SidebarFooter className="bg-white">
-          <div className="flex flex-col gap-2">
-            <Button onClick={() => navigate("/auth/login")}>Login</Button>
-            <Button onClick={() => navigate("/auth/register")}>Register</Button>
+          <div className="flex justify-center gap-1 w-full mb-2">
+            <Button
+              className="text-md bg-transparent text-black hover:bg-transparent shadow-none cursor-pointer hover:underline"
+              onClick={() => navigate("/auth/login")}
+            >
+              Login
+            </Button>
+            <Separator orientation="vertical" />
+            <Button
+              className="text-md bg-transparent text-black hover:bg-transparent shadow-none cursor-pointer hover:underline"
+              onClick={() => navigate("/auth/register")}
+            >
+              Register
+            </Button>
           </div>
         </SidebarFooter>
       )}
