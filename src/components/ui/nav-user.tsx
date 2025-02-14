@@ -35,7 +35,10 @@ export function NavUser({
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    console.log("Logged out");
+    localStorage.removeItem("firstname");
+    localStorage.removeItem("lastname");
+    localStorage.removeItem("email");
+    window.location.reload();
   };
 
   return (
